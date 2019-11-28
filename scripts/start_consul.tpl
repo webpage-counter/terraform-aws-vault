@@ -231,7 +231,7 @@ path "secret/mysql/*" {
 EOF
 
 vault secrets enable -version=1 kv
-vault kv put kv/redis pass=redispass
+vault kv put kv/redis pass=${pass}
 vault auth enable approle
 vault policy write redis /home/ubuntu/policy/redis-pol.hcl
 vault policy write user_token /home/ubuntu/policy/vault-user-token.hcl 
