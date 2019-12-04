@@ -237,4 +237,4 @@ vault policy write redis /home/ubuntu/policy/redis-pol.hcl
 vault policy write user_token /home/ubuntu/policy/vault-user-token.hcl 
 vault token create -policy=user_token > /home/ubuntu/policy/vault.txt -field "token"
 vault write auth/approle/role/redis policies="redis"
-
+consul kv put vault/token $(cat /home/ubuntu/policy/vault.txt)
