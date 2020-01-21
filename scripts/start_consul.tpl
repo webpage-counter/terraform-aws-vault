@@ -238,3 +238,38 @@ vault policy write user_token /home/ubuntu/policy/vault-user-token.hcl
 vault token create -policy=user_token > /home/ubuntu/policy/vault.txt -field "token"
 vault write auth/approle/role/redis policies="redis"
 consul kv put vault/token $(cat /home/ubuntu/policy/vault.txt)
+
+
+cat << EOF > /usr/local/bin/check_service.sh
+#!/usr/bin/env bash
+
+systemctl status vault | grep "active (running)"
+EOF
+
+chmod +x /usr/local/bin/check_service.sh
+
+# Register vault in consul
+var2=$(hostname)
+
+cat << EOF > /etc/consul.d/vault.json
+{
+  "service": {
+      "name": "vault",
+      "tags": ["${var2}"],
+      "port": 8200
+  },
+  "checks": [
+      {
+          "id": "vl_service_check",
+          "name": "Service check",
+          "args": ["/usr/local/bin/check_service.sh", "-limit", "256MB"],
+          "interval": "10s",
+          "timeout": "1s"
+      }
+  ]
+}
+EOF
+
+sleep 5
+consul reload
+sleep 30
