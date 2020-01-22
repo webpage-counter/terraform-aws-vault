@@ -49,7 +49,7 @@ resource "aws_instance" "vault_server" {
   ami                         = var.ami
   instance_type               = var.instance_type
   subnet_id                   = data.terraform_remote_state.nw.outputs.private_subnets[1]
-  vpc_security_group_ids      = ["${data.terraform_remote_state.nw.outputs.pubic_sec_group}"]
+  vpc_security_group_ids      = data.terraform_remote_state.nw.outputs.pubic_sec_group
   iam_instance_profile        = data.terraform_remote_state.consul.outputs.instance_profile
   private_ip                  = "${var.IP["vault"]}${count.index + 1}"
   key_name                    = "denislav_key_pair"
