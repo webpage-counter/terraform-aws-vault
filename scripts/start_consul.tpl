@@ -182,7 +182,7 @@ sudo systemctl start vault
 journalctl -f -u vault.service > /tmp/logs/${var2}-vl.log &
 sudo systemctl status vault
 echo vault started
-sleep 3 
+sleep 15
 
 grep VAULT_ADDR /home/ubuntu/.bash_profile || {
   echo export VAULT_ADDR=http://127.0.0.1:8200 | sudo tee -a /home/ubuntu/.bash_profile
