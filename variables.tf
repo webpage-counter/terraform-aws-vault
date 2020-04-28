@@ -6,7 +6,7 @@ variable "instance_type" {
 variable "ami" {
   description = "AMI IDs based on if node is a client or a server"
 
-  default = "ami-0fe2e9b1927cbdc98"
+  default = "ami-0ae16567e95c768a1"
 }
 
 variable "domain" {
